@@ -137,7 +137,7 @@
           </div>
 
           <div class="col-lg-5" data-aos="zoom-out" data-aos-delay="200">
-            <form action="forms/quote.php" method="post" class="php-email-form">
+            <form id="form">
               <h3>Soluciones topográficas a tu medida Consulta sin compromiso</h3>
               <p>Tus proyectos merecen precisión – ¡Pregúntanos cómo lograrlo!</p>
               <div class="row gy-3">
@@ -159,15 +159,18 @@
                 </div>
 
                 <div class="col-12 text-center">
-                  <div class="loading">Enviando...</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Tu mensaje ha sido enviado, !nos podremos en contacto lo más pronto¡</div>
-
-                  <button type="submit">Enviar</button>
+                  <input type="submit" id="button" value="Enviar mensaje">
                 </div>
 
               </div>
             </form>
+            <!-- scripts html del formulario de emailjs -->
+            <script type="text/javascript"
+              src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+            <script type="text/javascript">
+              emailjs.init('TzkQ69K-DuYhZBq4q')
+            </script>
           </div><!-- End Quote Form -->
 
         </div>
@@ -667,7 +670,7 @@
 
     <div class="container copyright text-center mt-4">
       <p>© <span>Copyright</span> <strong class="px-1 sitename">M. Rubio Topografía</strong> <span>Todos los derechos
-          reservados</span>
+          reservados </span>
       </p>
     </div>
 
@@ -695,5 +698,29 @@
   <script src="assets/js/main.js"></script>
 
 </body>
+
+<!-- script js de emailjs -->
+<script>
+  const btn = document.getElementById('button');
+
+  document.getElementById('form')
+    .addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      btn.value = 'Enviando...';
+
+      const serviceID = 'default_service';
+      const templateID = 'template_1vojv27';
+
+      emailjs.sendForm(serviceID, templateID, this)
+        .then(() => {
+          btn.value = 'Enviar mensaje';
+          alert('Mensaje enviado!');
+        }, (err) => {
+          btn.value = 'Enviar mensaje';
+          alert(JSON.stringify(err));
+        });
+    });
+</script>
 
 </html>
